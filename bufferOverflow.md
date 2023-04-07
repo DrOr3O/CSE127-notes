@@ -12,7 +12,7 @@
 - If the expansion of the bss data or the user stack exhausts available memory, the process is blocked and is rescheduled to run again with a larger memory space
 New mem is added between data and the stacks 
 
-# Stack:
+## Stack:
 - The stack is also used to dynamically allocate the local variables used in functions, to pass parameters to the functions, and to return values from the function. 
 - We used stack for procedure call to return to control the calls.
 - Stack pointer point to the top  of the stacks and the bottom of the stack is the fixed address.
@@ -26,8 +26,20 @@ with PUSHes and POPs. On Intel CPUs, BP (EBP) is used for this purpose. Essentia
 - Then EBP will be push on the Stack and current Stack pointer will be store in there
 - If there is local var then subtracts the local var from the current stack pointer for space
 
-# Buffer Overflow:
+## Buffer Overflow:
 - overwritten the stack beause of the running of the space. (high level) For example, run a function of putting a 256 bytes array into the 16 bytes array will cause it to overwrite the stack even the RET and even EBP
--- RESULT: we can control the return address of the program and hijack the processes
+- RESULT: we can control the return address of the program and hijack the processes
 
-#Shell Code:
+## Shell Code:
+- place the codes we want to execute in the buffer we are overflowing and overwrite the return address to the buffer, in most cases we will want a shell
+- C shell code looks like below:
+
+```c
+#include stdio.h
+    void main() {
+        char *name[2];
+        name[0] = "/bin/sh";
+        name[1] = NULL;
+        execve(name[0], name, NULL);
+    }
+```
