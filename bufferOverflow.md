@@ -59,13 +59,13 @@ current Instruction Pointer without needing to know the exact address of where i
 pushed onto the stack as the return address when CALL is executed.
 
 ### Quick version of what the shell codes are accomplishing:
-a. Have the null terminated string "/bin/sh" somewhere in memory. 
-b. Have the address of the string "/bin/sh" somewhere in memory followed by a null long word.
-c. Copy 0xb into the EAX register.
-d. Copy the address of the address of the string "/bin/sh" into the EBX register. 
-e. Copy the address of the string "/bin/sh" into the ECX register.
-f. Copy the address of the null long word into the EDX register. 
-g. Execute the int $0x80 instruction. 
-h. Copy 0x1 into the EAX register.
-i. Copy 0x0 into the EBX register. 
-j. Execute the int $0x80 instruction. 
+1. Have the null terminated string "/bin/sh" somewhere in memory. 
+2. Have the address of the string "/bin/sh" somewhere in memory followed by a null long word.
+3. Copy 0xb into the EAX register.
+4. Copy the address of the address of the string "/bin/sh" into the EBX register. 
+5. Copy the address of the string "/bin/sh" into the ECX register.
+6. Copy the address of the null long word into the EDX register. 
+7. Execute the int $0x80 instruction. 
+8. Copy 0x1 into the EAX register.
+9. Copy 0x0 into the EBX register. 
+10. Execute the int $0x80 instruction. 
