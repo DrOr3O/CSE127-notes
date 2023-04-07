@@ -23,8 +23,18 @@ with PUSHes and POPs. On Intel CPUs, BP (EBP) is used for this purpose. Essentia
 
 ## Functions call:
 - when function is called, Instruction pointers (IP) will push the return address onto the stack (RET)
-- Then EBP will be push on the Stack and current Stack pointer will be store in there
+- Then EBP will be push on the Stack to save the frame before going into the function. 
 - If there is local var then subtracts the local var from the current stack pointer for space
+```
+0x8000130 : pushl %ebp
+0x8000131 : movl %esp,%ebp
+0x8000133 : subl $0x8,%esp
+
+```
+- first line is function call, we store the main frame into the stack
+- second line we store the current function frame into the ebp (so we know which frame it is now)
+- Third line size can vary because it is allocating the space for the local variables. 
+
 
 ## Buffer Overflow:
 - overwritten the stack beause of the running of the space. (high level) For example, run a function of putting a 256 bytes array into the 16 bytes array will cause it to overwrite the stack even the RET and even EBP
