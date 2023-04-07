@@ -57,6 +57,8 @@ with PUSHes and POPs. On Intel CPUs, BP (EBP) is used for this purpose. Essentia
 - Use JMP and Call to work around, sicne they use relative addressing. which means we can jump to an offset from the
 current Instruction Pointer without needing to know the exact address of where in memory we want to jump to. If we place aCALL instruction right before the "/bin/sh" string, and a JMP instruction to it, the strings address will be
 pushed onto the stack as the return address when CALL is executed.
+- no NULL bytes in the shell code to function properly.
+
 
 ### Quick version of what the shell codes are accomplishing:
 1. Have the null terminated string "/bin/sh" somewhere in memory. 
@@ -69,3 +71,22 @@ pushed onto the stack as the return address when CALL is executed.
 8. Copy 0x1 into the EAX register.
 9. Copy 0x0 into the EBX register. 
 10. Execute the int $0x80 instruction. 
+
+## Other notes for how to effectively know the location of the buffer in the memories:
+- For every program we are trying to execute its stack is likely start at the same address. 
+- In order to increase the chances, we can use NOP null instruction to pad our shellcode
+
+## Small BufferOverflow
+- Either buffer is too small for shell code or NOP is too small for guesses.
+- Diff approach, only work when we can access the enviornmental variable
+- Store the shellcode into the Enviornment variable then overflow buffer with address of this variable 
+- The environment variables are stored in the top of the stack
+when the program is started, any modification by setenv() are then allocated elsewhere
+
+## Finding Overflow
+- C have many copy and paste function without bound checking:  strcat(), strcpy(), sprintf(), and vsprintf()
+
+
+# Questions for TA:
+- How do I know which buffer size to guess? What is the appopriate size of offset to guess
+- What is this $EGG about and how exactly does the function works.
