@@ -1,4 +1,4 @@
-# Processes: (from low to high mem address)
+# Processes: Text, Data, and stack. (from low to high mem address)
 
 ## Text:
 - The text region is fixed by the program and includes code (instructions) and read­only data
