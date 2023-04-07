@@ -53,3 +53,19 @@ with PUSHes and POPs. On Intel CPUs, BP (EBP) is used for this purpose. Essentia
         execve(name[0], name, NULL);
     }
 ```
+- Now we hav the shell code that can follow the assembly to execute and have those strings somewhere in the memory, the problem being we don't know where we can find it.
+- Use JMP and Call to work around, sicne they use relative addressing. which means we can jump to an offset from the
+current Instruction Pointer without needing to know the exact address of where in memory we want to jump to. If we place aCALL instruction right before the "/bin/sh" string, and a JMP instruction to it, the strings address will be
+pushed onto the stack as the return address when CALL is executed.
+
+### Quick version of what the shell codes are accomplishing:
+a. Have the null terminated string "/bin/sh" somewhere in memory. 
+b. Have the address of the string "/bin/sh" somewhere in memory followed by a null long word.
+c. Copy 0xb into the EAX register.
+d. Copy the address of the address of the string "/bin/sh" into the EBX register. 
+e. Copy the address of the string "/bin/sh" into the ECX register.
+f. Copy the address of the null long word into the EDX register. 
+g. Execute the int $0x80 instruction. 
+h. Copy 0x1 into the EAX register.
+i. Copy 0x0 into the EBX register. 
+j. Execute the int $0x80 instruction. 
