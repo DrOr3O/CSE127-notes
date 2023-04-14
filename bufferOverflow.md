@@ -88,5 +88,4 @@ when the program is started, any modification by setenv() are then allocated els
 
 
 # Questions for TA:
-- How do I know which buffer size to guess? What is the appopriate size of offset to guess
 - What is this $EGG about and how exactly does the function works.
